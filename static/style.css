@@ -1,0 +1,21 @@
+.gallery-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+}
+
+.gallery-column {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.gallery-element {
+    border-radius: 5%;
+}
+
+.gallery-image {
+    width: 350px;
+    height: auto;
+    border-radius: inherit;
+}

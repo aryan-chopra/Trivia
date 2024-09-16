@@ -1,13 +1,21 @@
-function doSomething() {
-    const movieName = document.getElementById("movie-name").value
-    const movieBannerURL = document.getElementById("movie-banner-url").value
-    console.log(movieName)
-    console.log(movieBannerURL)
+function createTriviaData() {
+    const triviaName = document.getElementById("trivia-name").value
+    const bannerURL = document.getElementById("banner-url").value
 
-    let movieData = localStorage.getItem(movieName)
-    if (!movieData) {
-        console.log("Data does not exist for the movie")
-    }
+    let trivia = new Trivia(bannerURL)
+
+    localStorage.setItem(triviaName, JSON.stringify(trivia))
+
+    localStorage.setItem("currentMovie", triviaName)
 
     location.href = "question.html"
+}
+
+function Trivia(bannerURL) {
+    this.bannerURL = bannerURL
+    this.questions = new Array
+}
+
+Trivia.prototype.pushQuestion = function (question) {
+    this.questions.push(question)
 }

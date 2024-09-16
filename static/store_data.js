@@ -8,4 +8,6 @@ function doSomething() {
     if (!movieData) {
         console.log("Data does not exist for the movie")
     }
+
+    location.href = "question.html"
 }

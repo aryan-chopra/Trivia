@@ -15,9 +15,21 @@
 }
 
 .gallery-image {
-    width: 350px;
-    height: 20%;
+    width: 23vw;
+    height: auto;
     border-radius: inherit;
+    cursor: pointer;
+}
+
+.gallery-image:hover {
+    animation-name: dim;
+    animation-duration: 500ms;
+    filter: brightness(70%);
+}
+
+@keyframes dim {
+    form {filter: brightness(100%);}
+    to {filter: brightness(70%);}
 }
 
 .container {

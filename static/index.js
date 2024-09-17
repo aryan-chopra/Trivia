@@ -3,36 +3,57 @@ function load() {
 
     galleryContainer = document.createElement("div")
     galleryContainer.setAttribute("class", "gallery-container")
+    console.log(galleryContainer)
 
     galleryColumnOne = document.createElement("div")
     galleryColumnOne.setAttribute("class", "gallery-column")
-
-    image = document.createElement("img")
-    image.setAttribute("class", "gallery-image")
-    image.setAttribute("src", "https://images.unsplash.com/photo-1565252503738-0d47de5d50e8?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-
-    galleryColumnOne.appendChild(image)
-
-    image = document.createElement("img")
-    image.setAttribute("class", "gallery-image")
-    image.setAttribute("src", "https://images.unsplash.com/photo-1565252503738-0d47de5d50e8?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
-
-    galleryColumnOne.appendChild(image)
-
-    galleryContainer.appendChild(galleryColumnOne)
+    galleryColumnOne.setAttribute("id", "gallery-column-1")
 
     galleryColumnTwo = document.createElement("div")
-    galleryColumnTwo.setAttribute("class", "gallery-container")
+    galleryColumnTwo.setAttribute("class", "gallery-column")
+    galleryColumnTwo.setAttribute("id", "gallery-column-2")
 
-    image = document.createElement("img")
-    image.setAttribute("class", "gallery-image")
-    image.setAttribute("src", "https://images.unsplash.com/photo-1565252503738-0d47de5d50e8?q=80&w=2067&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D")
+    galleryColumnThree = document.createElement("div")
+    galleryColumnThree.setAttribute("class", "gallery-column")
+    galleryColumnThree.setAttribute("id", "gallery-column-3")
 
-    galleryColumnTwo.appendChild(image)
+    galleryColumnFour = document.createElement("div")
+    galleryColumnFour.setAttribute("class", "gallery-column")
+    galleryColumnFour.setAttribute("id", "gallery-column-4")
 
+    galleryContainer.appendChild(galleryColumnOne)
     galleryContainer.appendChild(galleryColumnTwo)
-
+    galleryContainer.appendChild(galleryColumnThree)
+    galleryContainer.appendChild(galleryColumnFour)
     body.appendChild(galleryContainer)
+    list = localStorage.getItem("TriviaList")
+    if (list) {
+        list = JSON.parse(list)
+
+        let index = 0;
+        for (let triviaName of list.list) {
+            index++;
+            if (index > 4) {
+                index = 1
+            }
+
+            let triviaData = JSON.parse(localStorage.getItem(triviaName))
+            
+            galleryElement = document.createElement("div")
+            galleryElement.setAttribute("class", "gallery-element")
+
+            image = document.createElement("img")
+            image.setAttribute("class", "gallery-image")
+            image.setAttribute("src", triviaData.bannerURL)
+            galleryElement.appendChild(image)
+
+            galleryColumnID = "gallery-column-" + index.toString()
+            galleryColumn = document.getElementById(galleryColumnID)
+        
+            galleryColumn.appendChild(galleryElement)
+        }
+    }
+
 }
 
 load()

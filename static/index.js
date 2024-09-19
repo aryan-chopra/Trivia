@@ -45,6 +45,8 @@ function load() {
             image = document.createElement("img")
             image.setAttribute("class", "gallery-image")
             image.setAttribute("src", triviaData.bannerURL)
+            image.setAttribute("alt", triviaName)
+            image.setAttribute("onclick", "imageClick(this)")
             galleryElement.appendChild(image)
 
             galleryColumnID = "gallery-column-" + index.toString()
@@ -54,6 +56,11 @@ function load() {
         }
     }
 
+}
+
+function imageClick(e) {
+    localStorage.setItem("CurrentMovie", e.getAttribute("alt"))
+    location.href = "trivia.html"
 }
 
 load()

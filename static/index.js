@@ -60,7 +60,7 @@ function load() {
 
 function imageClick(e) {
     localStorage.setItem("CurrentMovie", e.getAttribute("alt"))
-    location.href = "trivia.html"
+    location.href = "./static/trivia.html"
 }
 
 load()

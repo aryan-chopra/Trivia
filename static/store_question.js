@@ -22,7 +22,7 @@ function readQuestion(questionNumber) {
 }
 
 function pushQuestionToTrivia(question, questionNumber) {
-    let currentMovie = localStorage.getItem("CurrentTriviaTemp")
+    let currentMovie = localStorage.getItem("CurrentTriviaToEditOrCreate")
     let trivia = JSON.parse(localStorage.getItem(currentMovie))
     Object.setPrototypeOf(trivia, Trivia.prototype)
     trivia.pushQuestion(question, questionNumber)
@@ -48,23 +48,37 @@ function buttonClick() {
     })
 }
 
+function validInputs() {
+    let inputs = document.getElementsByTagName("input")
+
+    for (let input of inputs) {
+        if (input.value.length == 0) {
+            return false
+        }
+    }
+    return true
+}
+
 async function waitForClick() {
     let questionNumber = 0
 
     while (questionNumber < 5) {
         loadQuestionAndOptions(questionNumber)
         await buttonClick()
-        readQuestion(questionNumber)
-        clearInputs()
-        questionNumber++;
+        if (validInputs())
+        {
+            readQuestion(questionNumber)
+            clearInputs()
+            questionNumber++;
+        }
     }
 
-    localStorage.removeItem("CurrentTriviaTemp")
+    localStorage.removeItem("CurrentTriviaEditOrCreate")
     location.href = "./../index.html"
 }
 
 function loadQuestionAndOptions(questionNumber) {
-    let currentTrivia = localStorage.getItem("CurrentTriviaTemp")
+    let currentTrivia = localStorage.getItem("CurrentTriviaToEditOrCreate")
 
     let trivia = localStorage.getItem(currentTrivia)
     trivia = JSON.parse(trivia)

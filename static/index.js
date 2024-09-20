@@ -73,12 +73,16 @@ function load() {
 }
 
 function imageClick(e) {
-    localStorage.setItem("CurrentTriviaToPlay", e.getAttribute("alt"))
+    localStorage.setItem("CurrentTrivia", e.getAttribute("alt"))
     location.href = "./static/trivia.html"
 }
 
 function editButtonClick(e) {
     localStorage.setItem("CurrentTrivia", e.getAttribute("name"))
+    location.href = "./static/new_entry.html"
+}
+
+function addNewTrivia() {
     location.href = "./static/new_entry.html"
 }
 

@@ -1,5 +1,6 @@
 function load() {
-    currentMovie = localStorage.getItem("CurrentTriviaTemp")
+    currentMovie = localStorage.getItem("CurrentTrivia")
+    localStorage.removeItem("CurrentTrivia")
     trivia = localStorage.getItem(currentMovie)
 
     if (trivia) {

@@ -1,4 +1,6 @@
 function load() {
+    console.log("Loading....")
+
     body = document.getElementsByTagName("body")[0]
 
     galleryContainer = document.createElement("div")
@@ -42,6 +44,18 @@ function load() {
             galleryElement = document.createElement("div")
             galleryElement.setAttribute("class", "gallery-element")
 
+            editButtonDiv = document.createElement("div")
+            editButtonDiv.setAttribute("class", "edit-trivia-button-div")
+            editButtonDiv.setAttribute("name", triviaName)
+            editButtonDiv.setAttribute("onclick", "editButtonClick(this)")
+
+            editButton = document.createElement("img")
+            editButton.setAttribute("class", "edit-trivia-button")
+            editButton.setAttribute("src", "./static/icons/edit-icon.svg")
+            
+            editButtonDiv.appendChild(editButton)
+            galleryElement.appendChild(editButtonDiv)
+
             image = document.createElement("img")
             image.setAttribute("class", "gallery-image")
             image.setAttribute("src", triviaData.bannerURL)
@@ -59,8 +73,13 @@ function load() {
 }
 
 function imageClick(e) {
-    localStorage.setItem("CurrentMovie", e.getAttribute("alt"))
+    localStorage.setItem("CurrentTriviaToPlay", e.getAttribute("alt"))
     location.href = "./static/trivia.html"
+}
+
+function editButtonClick(e) {
+    localStorage.setItem("CurrentTrivia", e.getAttribute("name"))
+    location.href = "./static/new_entry.html"
 }
 
 load()

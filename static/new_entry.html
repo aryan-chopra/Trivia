@@ -9,14 +9,15 @@
 </head>
 
 <body>
-    <script src="store_data.js"></script>
+    <script defer src="./TriviaObjects.js"></script>
+    <script defer src="store_data.js"></script>
     <div class="container">
         <div class="input-form-container">
-            <input type="text" id="trivia-name" name="movie-name" placeholder="Movie Name" />
+            <input type="text" id="entry-trivia-name" name="movie-name" placeholder="Movie Name" />
 
-            <input type="url" id="banner-url" name="movie-banner-url" placeholder="Banner URL" />
+            <input type="url" id="entry-banner-url" name="movie-banner-url" placeholder="Banner URL" />
 
-            <button onclick="createTriviaData()" type="button">Submit</button>
+            <button onclick="createOrEditTriviaData()" type="button">Submit</button>
         </div>
     </div>
 </body>

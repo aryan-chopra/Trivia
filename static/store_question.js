@@ -1,23 +1,31 @@
-function readQuestions() {
+function Question(question) {
+    this.statement = question
+    this.options = new Array
+
+    this.pushOption = function(option) {
+        this.options.push(option)
+    }
+}
+
+function readQuestion(questionNumber) {
     let questionStatement = document.getElementById("question").value
     let options = document.getElementsByClassName("option")
 
     let question = new Question(questionStatement)
 
     for (let option of options) {
+        console.log("Option " + option.value)
         question.pushOption(option.value)
     }
 
-    pushQuestionToTrivia(question)
+    pushQuestionToTrivia(question, questionNumber)
 }
 
-function pushQuestionToTrivia(question) {
-    let currentMovie = localStorage.getItem("currentMovie")
+function pushQuestionToTrivia(question, questionNumber) {
+    let currentMovie = localStorage.getItem("CurrentTriviaTemp")
     let trivia = JSON.parse(localStorage.getItem(currentMovie))
-
     Object.setPrototypeOf(trivia, Trivia.prototype)
-
-    trivia.pushQuestion(question)
+    trivia.pushQuestion(question, questionNumber)
 
     localStorage.setItem(currentMovie, JSON.stringify(trivia))
 }
@@ -30,39 +38,54 @@ function clearInputs() {
     }
 }
 
-function Question(question) {
-    this.statement = question
-    this.options = new Array
-
-    this.pushOption = function(option) {
-        this.options.push(option)
-    }
-}
-
 function buttonClick() {
     return new Promise(resolve => {
         function clicked() {
             document.getElementById("submit-questions").removeEventListener("click", clicked)
-            resolve("resolve")
+            resolve()
         }
         document.getElementById("submit-questions").addEventListener("click", clicked)
     })
 }
 
 async function waitForClick() {
-    let i = 0
+    let questionNumber = 0
 
-    while (i < 5) {
-        console.log("Waiting!")
+    while (questionNumber < 5) {
+        loadQuestionAndOptions(questionNumber)
         await buttonClick()
-        console.log("clicked")
-        readQuestions()
+        readQuestion(questionNumber)
         clearInputs()
-        i++;
+        questionNumber++;
     }
 
-    localStorage.removeItem("currentMovie")
-    location.href = "index.html"
+    localStorage.removeItem("CurrentTriviaTemp")
+    location.href = "./../index.html"
+}
+
+function loadQuestionAndOptions(questionNumber) {
+    let currentTrivia = localStorage.getItem("CurrentTriviaTemp")
+
+    let trivia = localStorage.getItem(currentTrivia)
+    trivia = JSON.parse(trivia)
+
+    //Is valid index
+    if (trivia.totalQuestions > questionNumber) {
+        statement = document.getElementById("question")
+        statement.value = trivia.questions[questionNumber].statement
+
+        let options = document.getElementsByClassName("option")
+
+        let optionIndex = 0
+        for (let option of trivia.questions[questionNumber].options) {
+            options[optionIndex].value = option
+            optionIndex++
+        }
+    }
+
+    else {
+        console.log("Invalid index: " + questionNumber + " for " + trivia.totalQuestions)
+    }
 }
 
 waitForClick()

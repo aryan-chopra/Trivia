@@ -40,11 +40,17 @@ function clearInputs() {
 
 function buttonClick() {
     return new Promise(resolve => {
-        function clicked() {
-            document.getElementById("submit-questions").removeEventListener("click", clicked)
-            resolve()
+        function next() {
+            document.getElementById("submit-questions").removeEventListener("click", next)
+            resolve(1)
         }
-        document.getElementById("submit-questions").addEventListener("click", clicked)
+
+        function previous() {
+            document.getElementById("show-previous-fields").removeEventListener("click", previous)
+            resolve(-1)
+        }
+        document.getElementById("submit-questions").addEventListener("click", next)
+        document.getElementById("show-previous-fields").addEventListener("click", previous)
     })
 }
 
@@ -64,13 +70,24 @@ async function waitForClick() {
 
     while (questionNumber < 5) {
         loadQuestionAndOptions(questionNumber)
-        await buttonClick()
-        if (validInputs())
-        {
-            readQuestion(questionNumber)
-            clearInputs()
-            questionNumber++;
-        }
+        await buttonClick().then((value) => {
+            if (value == -1) {
+                if (questionNumber == 0) {
+                    localStorage.setItem("CurrentTrivia", localStorage.getItem("CurrentTriviaToEditOrCreate"))
+                    location.href = './new_entry.html'
+                }
+
+                questionNumber--
+            }
+
+            if (value == 1) {
+                if (validInputs()) {
+                    readQuestion(questionNumber)
+                    clearInputs()
+                    questionNumber++
+                }
+            }
+        })
     }
 
     localStorage.removeItem("CurrentTriviaEditOrCreate")

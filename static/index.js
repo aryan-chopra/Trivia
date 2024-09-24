@@ -45,7 +45,7 @@ function load() {
             galleryElement.setAttribute("class", "gallery-element")
 
             editButtonDiv = document.createElement("div")
-            editButtonDiv.setAttribute("class", "edit-trivia-button-div")
+            editButtonDiv.setAttribute("class", "edit-trivia-button-div clickable-div-button")
             editButtonDiv.setAttribute("name", triviaName)
             editButtonDiv.setAttribute("onclick", "editButtonClick(this)")
 

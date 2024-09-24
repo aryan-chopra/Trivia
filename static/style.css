@@ -1,5 +1,15 @@
 body {
     margin-top: 0px;
+    background-color: var(--bg);
+}
+
+* {
+    font-family: "Poppins", sans-serif;
+    font-weight: 400;
+}
+
+.non-scrollable-body {
+    overflow: hidden;
 }
 
 .gallery-container {
@@ -28,16 +38,15 @@ body {
     height: 10vh;
 }
 
-#add-button {
+.add-button {
     margin-right: 1em;
-    background-color: #F8EDE3;
+    background-color: var(--button-inactive);
     display: flex;
     justify-content: center;
     align-items: center;
     border-radius: 50%;
     height: 5vh;
     width: 5vh;
-    cursor: pointer;
 }
 
 #add-button-icon {
@@ -45,8 +54,12 @@ body {
     width: 90%;
 }
 
-#add-button:hover {
-    filter: brightness(90%);
+.clickable-div-button {
+    cursor: pointer;
+}
+
+.clickable-div-button:hover {
+    background-color: var(--button-active);
 }
 
 .edit-trivia-button-div {
@@ -61,12 +74,7 @@ body {
     display: none;
     align-items: center;
     justify-content: center;
-    background-color: #F8EDE3;
-    cursor: pointer;
-}
-
-.edit-trivia-button-div:hover {
-    filter: brightness(70%);
+    background-color: var(--button-inactive);
 }
 
 .edit-trivia-button {
@@ -92,8 +100,13 @@ body {
 }
 
 @keyframes dim {
-    form {filter: brightness(100%);}
-    to {filter: brightness(70%);}
+    form {
+        filter: brightness(100%);
+    }
+
+    to {
+        filter: brightness(70%);
+    }
 }
 
 .container {
@@ -105,15 +118,75 @@ body {
 }
 
 .input-form-container {
+    background-color: var(--accent-50);
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-around;
-    width: 50%;
-    height: 50%;
-    padding: 5px;
-    border: 1px solid black;
+    justify-content: space-between;
+    width: 40%;
+    height: 40%;
+    padding: 10vh 5vh 5vh;
+    border: 0px solid;
     border-radius: 1em;
+}
+
+.entry-trivia-field {
+    /* margin-top: 5vh; */
+    border: 0px;
+    border-radius: 10px;
+    font-size: 1.3em;
+    padding: 10px;
+}
+
+.bottom-button-container {
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+}
+
+.arrow-div {
+    height: 5vh;
+    background-color: var(--button-inactive);
+    width: 5vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0px;
+    border-radius: 50%;
+}
+
+.right-arrow {
+    /* margin-right: 5vh; */
+}
+
+.left-arrow {
+    /* margin-left: 5vh; */
+}
+
+.disabled-div-button {
+    opacity: 0.2;
+}
+
+.disabled-div-button {
+    pointer-events: none;
+}
+
+.svg-icon {
+    height: 50%;
+    width: 50%;
+}
+
+.flipped-svg-icon {
+    transform: scaleX(-1);
+}
+
+.question-input-form {
+    height: 50%;
+}
+
+.question-input {
+    font-size: 1.2em;
+    height: 3vh;
 }
 
 .trivia-option-label {

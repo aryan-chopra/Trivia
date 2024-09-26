@@ -86,4 +86,10 @@ function addNewTrivia() {
     location.href = "./static/new_entry.html"
 }
 
+if (String(window.performance.getEntriesByType("navigation")[0].type) === "back_forward") {
+    console.log("Navigated here")
+}
+
+console.log("Something")
+
 load()

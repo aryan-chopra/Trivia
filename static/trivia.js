@@ -7,7 +7,7 @@ function load() {
     if (trivia) {
         trivia = JSON.parse(trivia)
         createQuestionBox()
-        extractAndLoadQuestions(trivia)
+        extractAndLoadQuestions(trivia, currentMovie)
     }
 }
 
@@ -36,18 +36,13 @@ function createQuestionBox() {
 
         optionIndex++
     }
-
-    // submitButton = document.createElement("button")
-    // submitButton.setAttribute("id", "trivia-submit-button")
-    // submitButton.innerHTML = "Submit"
-    // questionBox.appendChild(submitButton)
 }
 
-function displayQuestion(question) {
+function displayQuestion(question, currentMovie) {
     statement = document.getElementById("trivia-question-statement")
     statement.innerHTML = question.statement
 
-    let questionState = localStorage.getItem(question.statement)
+    let questionState = sessionStorage.getItem(currentMovie + ", " + question.statement)
 
     if (questionState) {
         return loadExistingQuestion(JSON.parse(questionState))
@@ -142,7 +137,7 @@ function getSelectedButton() {
     }
 }
 
-async function extractAndLoadQuestions(trivia) {
+async function extractAndLoadQuestions(trivia, currentMovie) {
     let currentQuestion = 0
 
     let result = {
@@ -151,9 +146,9 @@ async function extractAndLoadQuestions(trivia) {
 
     while (currentQuestion < 5) {
         let question = trivia.questions[currentQuestion]
-        let questionState = displayQuestion(question)
+        let questionState = displayQuestion(question, currentMovie)
 
-        localStorage.setItem(question.statement, JSON.stringify(questionState))
+        sessionStorage.setItem(currentMovie + ", " + question.statement, JSON.stringify(questionState))
 
         let letfArrow = document.getElementById("show-previous-question")
         if (currentQuestion == 0) {
@@ -173,7 +168,7 @@ async function extractAndLoadQuestions(trivia) {
                     result.correctQuestions++
                 }
 
-                localStorage.setItem(question.statement, JSON.stringify(questionState))
+                sessionStorage.setItem(currentMovie + ", " + question.statement, JSON.stringify(questionState))
                 currentQuestion++
             }
 

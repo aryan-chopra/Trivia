@@ -8,14 +8,14 @@ function display() {
     let currentTrivia = localStorage.getItem("CurrentTriviaToPlay")
     let trivia = JSON.parse(localStorage.getItem(currentTrivia))
 
-    displayResultOfQuestions(trivia)
+    displayResultOfQuestions(trivia, currentTrivia)
 
-    cleanup(trivia)
+    cleanup(trivia, currentTrivia)
 }
 
-function displayResultOfQuestions(trivia) {
+function displayResultOfQuestions(trivia, currentTrivia) {
     for (let question of trivia.questions) {
-        let questionState = JSON.parse(localStorage.getItem(question.statement))
+        let questionState = JSON.parse(sessionStorage.getItem(currentTrivia + ", " + question.statement))
 
         let isCorrect = document.createElement("p")
         isCorrect.innerHTML = questionState.options[questionState.selectedOptionIndex]
@@ -33,11 +33,11 @@ function displayResultOfQuestions(trivia) {
     }
 }
 
-function cleanup(trivia) {
+function cleanup(trivia, currentTrivia) {
     localStorage.removeItem("CurrentTriviaToPlay")
 
     for (let question of trivia.questions) {
-        localStorage.removeItem(question.statement)
+        sessionStorage.removeItem(currentTrivia + ", " + question.statement)
     }
 }
 

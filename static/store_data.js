@@ -59,6 +59,10 @@ function validInputs() {
     let bannerURL = document.getElementById("entry-banner-url").value
 
     if (triviaName.length == 0) {
+        let requiredIndicator = document.getElementsByClassName("required-indicator")[0]
+        requiredIndicator.style.display = "block"
+        document.getElementById("entry-trivia-name").addEventListener("input", hideIndicator)
+        console.log(document.getElementById("entry-trivia-name"))
         return false
     }
 
@@ -134,6 +138,13 @@ function loadData() {
     else {
         console.log("No movie found")
     }
+}
+
+function hideIndicator() {
+    console.log("Triggered")
+    let requiredIndicator = document.getElementsByClassName("required-indicator")[0]
+    requiredIndicator.style.display = "none"
+    this.removeEventListener("input", hideIndicator)
 }
 
 loadData()

@@ -74,6 +74,7 @@ async function waitForClick() {
             if (value == -1) {
                 if (questionNumber == 0) {
                     localStorage.setItem("CurrentTrivia", localStorage.getItem("CurrentTriviaToEditOrCreate"))
+                    localStorage.removeItem("CurrentTriviaToEditOrCreate")
                     location.href = './new_entry.html'
                 }
 

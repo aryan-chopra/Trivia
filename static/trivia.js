@@ -2,6 +2,7 @@ function load() {
     currentMovie = localStorage.getItem("CurrentTrivia")
     localStorage.removeItem("CurrentTrivia")
     trivia = localStorage.getItem(currentMovie)
+    localStorage.setItem("CurrentTriviaToPlay", currentMovie)
 
     if (trivia) {
         trivia = JSON.parse(trivia)
@@ -62,10 +63,14 @@ function loadExistingQuestion(questionState) {
 
     console.log("Getting: trivia-option-" + questionState.selectedOptionIndex)
 
-    let checkedOption = document.getElementById("trivia-option-" + questionState.selectedOptionIndex)
-    console.log(checkedOption)
-    checkedOption.checked = true
+    if (questionState.selectedButtonIndex != -1) {
 
+        let checkedOption = document.getElementById("trivia-option-" + questionState.selectedOptionIndex)
+        if (checkedOption) {
+            console.log(checkedOption)
+            checkedOption.checked = true
+        }
+    }
     return questionState
 }
 
@@ -85,7 +90,7 @@ function createQuestionState(question) {
     let questionState = {
         options: new Array(),
         correctOptionIndex: -1,
-        selectedOptionIndex: 0
+        selectedOptionIndex: -1
     }
 
     let optionToSet = 0
@@ -109,11 +114,21 @@ function createQuestionState(question) {
 
 function buttonClick() {
     return new Promise(res => {
-        function clicked() {
-            button = document.getElementById("trivia-submit-button").removeEventListener("click", clicked)
-            res()
+        function next() {
+            document.getElementById("trivia-submit-button").removeEventListener("click", next)
+            document.getElementById("show-previous-question").removeEventListener("click", previous)
+
+            res(1)
         }
-        document.getElementById("trivia-submit-button").addEventListener("click", clicked)
+
+        function previous() {
+            document.getElementById("show-previous-question").removeEventListener("click", previous)
+            document.getElementById("trivia-submit-button").removeEventListener("click", next)
+
+            res(-1)
+        }
+        document.getElementById("trivia-submit-button").addEventListener("click", next)
+        document.getElementById("show-previous-question").addEventListener("click", previous)
     })
 }
 
@@ -138,20 +153,35 @@ async function extractAndLoadQuestions(trivia) {
         let question = trivia.questions[currentQuestion]
         let questionState = displayQuestion(question)
 
-        await buttonClick()
+        localStorage.setItem(question.statement, JSON.stringify(questionState))
 
-        let selectedButtonIndex = getSelectedButton()
-        questionState.selectedOptionIndex = selectedButtonIndex
-
-        if (selectedButtonIndex == questionState.correctOptionIndex) {
-            result.correctQuestions++;
+        let letfArrow = document.getElementById("show-previous-question")
+        if (currentQuestion == 0) {
+            letfArrow.setAttribute("class", "arrow-div left-arrow clickable-div-button disabled-div-button")
         }
 
+        else if (currentQuestion == 1) {
+            letfArrow.setAttribute("class", "arrow-div left-arrow clickable-div-button")
+        }
 
-        localStorage.setItem(question.statement, JSON.stringify(questionState))
-        currentQuestion++;
+        await buttonClick().then((value) => {
+            if (value == 1) {
+                let selectedButtonIndex = getSelectedButton()
+                questionState.selectedOptionIndex = selectedButtonIndex
+
+                if (selectedButtonIndex == questionState.correctOptionIndex) {
+                    result.correctQuestions++
+                }
+
+                localStorage.setItem(question.statement, JSON.stringify(questionState))
+                currentQuestion++
+            }
+
+            else {
+                currentQuestion--
+            }
+        })
     }
-
     sessionStorage.setItem("Result", JSON.stringify(result))
 
     location.href = "./result.html"

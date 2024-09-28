@@ -1,6 +1,6 @@
 function createOrEditTriviaData() {
     const triviaName = document.getElementById("entry-trivia-name").value
-    const bannerURL = document.getElementById("entry-banner-url").value
+    const bannerURL = document.getElementById("entry-trivia-url").value
     let currentTrivia = localStorage.getItem("CurrentTriviaToEdit")
 
     if (!validInputs()) {
@@ -56,13 +56,14 @@ function createOrEditTriviaData() {
 
 function validInputs() {
     let triviaName = document.getElementById("entry-trivia-name").value
-    let bannerURL = document.getElementById("entry-banner-url").value
+    let bannerURL = document.getElementById("entry-trivia-url").value
 
     if (triviaName.length == 0) {
-        let requiredIndicator = document.getElementsByClassName("required-indicator")[0]
+        let requiredIndicator = document.getElementById("entry-name-indicator")
         requiredIndicator.style.display = "block"
         document.getElementById("entry-trivia-name").addEventListener("input", hideIndicator)
         console.log(document.getElementById("entry-trivia-name"))
+
         return false
     }
 
@@ -70,6 +71,11 @@ function validInputs() {
     try {
         url = new URL(bannerURL)
     } catch (_) {
+        let requiredIndicator = document.getElementById("entry-url-indicator")
+        requiredIndicator.style.display = "block"
+        document.getElementById("entry-trivia-url").addEventListener("input", hideIndicator)
+        console.log(document.getElementById("entry-trivia-name"))
+
         return false
     }
 
@@ -116,7 +122,7 @@ function loadData() {
         trivia = JSON.parse(trivia)
 
         triviaName = document.getElementById("entry-trivia-name")
-        triviaURL = document.getElementById("entry-banner-url")
+        triviaURL = document.getElementById("entry-trivia-url")
 
         triviaName.value = currentTrivia
         triviaURL.value = trivia.bannerURL
@@ -141,8 +147,7 @@ function loadData() {
 }
 
 function hideIndicator() {
-    console.log("Triggered")
-    let requiredIndicator = document.getElementsByClassName("required-indicator")[0]
+    let requiredIndicator = this.nextElementSibling
     requiredIndicator.style.display = "none"
     this.removeEventListener("input", hideIndicator)
 }

@@ -1,46 +1,20 @@
-function load() {
+function load(columns) {
     console.log("Loading....")
 
-    body = document.getElementsByTagName("body")[0]
+    let galleryColumns = createGalleryColumns(columns)
 
-    galleryContainer = document.createElement("div")
-    galleryContainer.setAttribute("class", "gallery-container")
-    console.log(galleryContainer)
-
-    galleryColumnOne = document.createElement("div")
-    galleryColumnOne.setAttribute("class", "gallery-column")
-    galleryColumnOne.setAttribute("id", "gallery-column-1")
-
-    galleryColumnTwo = document.createElement("div")
-    galleryColumnTwo.setAttribute("class", "gallery-column")
-    galleryColumnTwo.setAttribute("id", "gallery-column-2")
-
-    galleryColumnThree = document.createElement("div")
-    galleryColumnThree.setAttribute("class", "gallery-column")
-    galleryColumnThree.setAttribute("id", "gallery-column-3")
-
-    galleryColumnFour = document.createElement("div")
-    galleryColumnFour.setAttribute("class", "gallery-column")
-    galleryColumnFour.setAttribute("id", "gallery-column-4")
-
-    galleryContainer.appendChild(galleryColumnOne)
-    galleryContainer.appendChild(galleryColumnTwo)
-    galleryContainer.appendChild(galleryColumnThree)
-    galleryContainer.appendChild(galleryColumnFour)
-    body.appendChild(galleryContainer)
     list = localStorage.getItem("TriviaList")
     if (list) {
         list = JSON.parse(list)
 
         let index = 0;
         for (let triviaName of list.list) {
-            index++;
-            if (index > 4) {
-                index = 1
+            if (index == galleryColumns.length) {
+                index = 0
             }
 
             let triviaData = JSON.parse(localStorage.getItem(triviaName))
-            
+
             galleryElement = document.createElement("div")
             galleryElement.setAttribute("class", "gallery-element")
 
@@ -52,7 +26,7 @@ function load() {
             editButton = document.createElement("img")
             editButton.setAttribute("class", "edit-trivia-button")
             editButton.setAttribute("src", "./static/icons/edit-icon.svg")
-            
+
             editButtonDiv.appendChild(editButton)
             galleryElement.appendChild(editButtonDiv)
 
@@ -63,13 +37,35 @@ function load() {
             image.setAttribute("onclick", "imageClick(this)")
             galleryElement.appendChild(image)
 
-            galleryColumnID = "gallery-column-" + index.toString()
-            galleryColumn = document.getElementById(galleryColumnID)
-        
+            galleryColumn = galleryColumns[index]
+
             galleryColumn.appendChild(galleryElement)
+
+            index++
         }
     }
 
+}
+
+function createGalleryColumns(columns) {
+    let galleryContainer = document.getElementsByClassName("gallery-container")[0]
+    
+    galleryContainer.innerHTML = ""
+    
+    let galleryColumns = new Array()
+    for (let column = 1; column <= columns; column++) {
+        let galleryColumn = document.createElement("div")
+        galleryColumn.setAttribute("class", "gallery-column")
+        galleryColumn.setAttribute("id", "gallery-column-" + toString(column))
+
+        galleryContainer.appendChild(galleryColumn)
+        galleryColumns.push(galleryColumn)
+    }
+
+    let body = document.getElementsByTagName("body")[0]
+    body.appendChild(galleryContainer)
+
+    return galleryColumns
 }
 
 function imageClick(e) {
@@ -86,10 +82,22 @@ function addNewTrivia() {
     location.href = "./static/new_entry.html"
 }
 
-if (String(window.performance.getEntriesByType("navigation")[0].type) === "back_forward") {
-    console.log("Navigated here")
+function loadGallery() {
+    if (window.screen.width <= 425) {
+        load(2)
+    }
+    else if (window.screen.width <= 768) {
+        load(3)
+    }
+    else {
+        load(4)
+    }
 }
 
-console.log("Something")
+function reload() {
+   loadGallery() 
+}
 
-load()
+window,onresize = reload
+
+loadGallery()

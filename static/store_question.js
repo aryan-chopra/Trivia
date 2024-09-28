@@ -2,7 +2,7 @@ function Question(question) {
     this.statement = question
     this.options = new Array
 
-    this.pushOption = function(option) {
+    this.pushOption = function (option) {
         this.options.push(option)
     }
 }
@@ -59,6 +59,11 @@ function validInputs() {
 
     for (let input of inputs) {
         if (input.value.length == 0) {
+            let requiredIndicator = input.nextElementSibling
+            requiredIndicator.style.display = "block"
+
+            input.addEventListener("input", hideIndicator)
+
             return false
         }
     }
@@ -68,8 +73,12 @@ function validInputs() {
 async function waitForClick() {
     let questionNumber = 0
 
+    let loadOptions = true
     while (questionNumber < 5) {
-        loadQuestionAndOptions(questionNumber)
+        if (loadOptions) {
+            loadQuestionAndOptions(questionNumber)
+        }
+        loadOptions = true
         await buttonClick().then((value) => {
             if (value == -1) {
                 if (questionNumber == 0) {
@@ -86,6 +95,9 @@ async function waitForClick() {
                     readQuestion(questionNumber)
                     clearInputs()
                     questionNumber++
+                }
+                else {
+                    loadOptions = false
                 }
             }
         })
@@ -118,6 +130,12 @@ function loadQuestionAndOptions(questionNumber) {
     else {
         console.log("Invalid index: " + questionNumber + " for " + trivia.totalQuestions)
     }
+}
+
+function hideIndicator() {
+    let requiredIndicator = this.nextElementSibling
+    requiredIndicator.style.display = "none"
+    this.removeEventListener("input", hideIndicator)
 }
 
 waitForClick()

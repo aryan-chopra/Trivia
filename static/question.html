@@ -19,19 +19,35 @@
     <script defer src="store_question.js"></script>
     <div class="container">
         <div class="input-form-container question-input-form">
-            <input type="text" required class="entry-trivia-field question-input" id="question" autofocus
-                placeholder="Question" />
+            <div class="input-error-container">
+                <input type="text" required class="entry-trivia-field question-input" id="question" autofocus
+                    placeholder="Question" />
+                <p class="error-indicator">*</p>
+            </div>
 
-            <input type="text" required class="entry-trivia-field question-input option correct-option"
-                id="question-correct-option question-option-0" placeholder="Correct Answer" />
+            <div class="input-error-container">
+                <input type="text" required class="entry-trivia-field question-input option correct-option"
+                    id="question-correct-option question-option-0" placeholder="Correct Answer" />
+                <p class="error-indicator">*</p>
+            </div>
 
-            <input type="text" required class="entry-trivia-field question-input option wrong-option"
-                id="question-incorrect-option-1 question-option-1" placeholder="Option" />
-            <input type="text" required class="entry-trivia-field question-input option wrong-option"
-                id="question-incorrect-option-2 question-option-2" placeholder="Option" />
-            <input type="text" required class="entry-trivia-field question-input option wrong-option"
-                id="question-incorrect-option-3 question-option-3" placeholder="Option" />
+            <div class="input-error-container">
+                <input type="text" required class="entry-trivia-field question-input option wrong-option"
+                    id="question-incorrect-option-1 question-option-1" placeholder="Option" />
+                <p class="error-indicator">*</p>
+            </div>
 
+            <div class="input-error-container">
+                <input type="text" required class="entry-trivia-field question-input option wrong-option"
+                    id="question-incorrect-option-2 question-option-2" placeholder="Option" />
+                <p class="error-indicator">*</p>
+            </div>
+
+            <div class="input-error-container">
+                <input type="text" required class="entry-trivia-field question-input option wrong-option"
+                    id="question-incorrect-option-3 question-option-3" placeholder="Option" />
+                <p class="error-indicator">*</p>
+            </div>
             <div class="bottom-button-container">
                 <div class="arrow-div left-arrow clickable-div-button" id="show-previous-fields">
                     <svg class="svg-icon flipped-svg-icon" fill="#5f6368" height="800px" width="800px" version="1.1"
